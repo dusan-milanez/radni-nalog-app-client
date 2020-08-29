@@ -19,9 +19,6 @@ export default function NewRadniNalog() {
 
     function validateForm() {
         return klijent.length > 0;
-        return kontakt.length > 0;
-        return uredjaj.length > 0;
-        return napomena.length > 0;
     }
 
     function handleFileChange(event) {

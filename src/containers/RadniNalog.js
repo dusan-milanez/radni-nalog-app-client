@@ -49,9 +49,6 @@ export default function Notes() {
 
     function validateForm() {
         return klijent.length > 0;
-        return kontakt.length > 0;
-        return uredjaj.length > 0;
-        return napomena.length > 0;
     }
 
     function formatFilename(str) {
@@ -103,9 +100,10 @@ export default function Notes() {
         }
     }
 
-    function deleteNote() {
+    function deleteRadniNalog() {
         return API.del("radniNalog", `/radniNalog/${id}`);
     }
+
 
     async function handleDelete(event) {
         event.preventDefault();
@@ -121,7 +119,7 @@ export default function Notes() {
         setIsDeleting(true);
 
         try {
-            await deleteNote();
+            await deleteRadniNalog();
             history.push("/");
         } catch (e) {
             onError(e);
