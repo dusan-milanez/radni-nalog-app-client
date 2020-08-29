@@ -1,0 +1,8 @@
+.NewRadniNalog form {
+    padding-bottom: 15px;
+}
+
+.NewRadniNalog form textarea {
+    height: auto;
+    font-size: 24px;
+}

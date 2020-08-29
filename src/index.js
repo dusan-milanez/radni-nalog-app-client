@@ -23,7 +23,7 @@ Amplify.configure({
     API: {
         endpoints: [
             {
-                name: "radninalog",
+                name: "radniNalog",
                 endpoint: config.apiGateway.URL,
                 region: config.apiGateway.REGION
             },

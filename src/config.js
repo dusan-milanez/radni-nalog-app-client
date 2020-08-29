@@ -1,4 +1,5 @@
 export default {
+    MAX_ATTACHMENT_SIZE: 5000000,
     s3: {
         REGION: "EU (Frankfurt)",
         BUCKET: "radni-nalog-app-uploads"
