@@ -1,7 +1,50 @@
 .App {
-  margin-top: 15px;
+    margin-top: 15px;
 }
 
 .App .navbar-brand {
-  font-weight: bold;
+    font-weight: bold;
+}
+
+.App input {
+    background: #252827;
+    color: azure;
+    border-color: #e5c677;
+}
+
+.App .navbar {
+    border-width: 0;
+    background-color: #252827;
+}
+
+.list-group-item {
+    background-color: #252827;
+    border-width: 0;
+    color: azure;
+}
+
+.page-header {
+    color: azure;
+    font-family: "PT Serif", serif;
+}
+
+.App .container-fluid {
+    border-width: 0;
+}
+
+.App textarea {
+    background: #252827;
+    color: azure;
+    border-color: #e5c677;
+}
+
+.App button {
+    border-width: 0;
+    background: radial-gradient(circle at bottom, transparent, rgba(255, 255, 255, 0.2)),
+    linear-gradient(to top, transparent, rgba(255, 255, 255, 0.1)),
+    linear-gradient(to right, #b88f0e, #e5c677, #b88f0e)
+}
+
+.App label {
+    color: azure;
 }

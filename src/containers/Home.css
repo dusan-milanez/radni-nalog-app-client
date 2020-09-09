@@ -11,6 +11,7 @@
 .Home .lander p {
     color: #999;
 }
+
 .Home .lander div {
     padding-top: 20px;
 }
@@ -27,6 +28,44 @@
     white-space: nowrap;
     text-overflow: ellipsis;
 }
+
 .Home .radniNalog p {
     color: #666;
+}
+
+.Home .item:hover {
+    background-color: #e5c677;
+}
+
+.Home .item:hover h4 {
+    font-family: "Open Sans", sans-serif;
+    color: black;
+}
+
+.list-group-item {
+    font-family: "Open Sans", sans-serif;
+    color: azure;
+}
+
+.list-group-item-heading {
+    font-family: "Open Sans", sans-serif;
+    color: azure;
+}
+
+.list-group-item-text {
+    font-family: "Open Sans", sans-serif;
+    opacity: .7;
+    color: azure;
+}
+
+h4 {
+    color: azure;
+    font-family: "Open Sans", sans-serif;
+}
+
+.radninalog {
+    font-family: "Open Sans", sans-serif;
+    padding-top: 50px;
+    padding-bottom: 20px;
+    color: azure;
 }

@@ -1,16 +1,16 @@
-import React, { useRef, useState, useEffect } from "react";
-import { useParams, useHistory } from "react-router-dom";
-import { API, Storage } from "aws-amplify";
-import { onError } from "../libs/errorLib";
-import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import React, {useRef, useState, useEffect} from "react";
+import {useParams, useHistory} from "react-router-dom";
+import {API, Storage} from "aws-amplify";
+import {onError} from "../libs/errorLib";
+import {FormGroup, FormControl, ControlLabel, Row, Col} from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
 import config from "../config";
 import "./RadniNalog.css";
-import { s3Upload } from "../libs/awsLib";
+import {s3Upload} from "../libs/awsLib";
 
 export default function Notes() {
     const file = useRef(null);
-    const { id } = useParams();
+    const {id} = useParams();
     const history = useHistory();
     const [radniNalog, setRadniNalog] = useState(null);
     const [klijent, setKlijent] = useState("");
@@ -28,7 +28,7 @@ export default function Notes() {
         async function onLoad() {
             try {
                 const radniNalog = await loadRadniNalog();
-                const { klijent, kontakt, uredjaj, napomena, attachment } = radniNalog;
+                const {klijent, kontakt, uredjaj, napomena, attachment} = radniNalog;
 
                 if (attachment) {
                     radniNalog.attachmentURL = await Storage.vault.get(attachment);
@@ -131,71 +131,110 @@ export default function Notes() {
         <div className="RadniNalog">
             {radniNalog && (
                 <form onSubmit={handleSubmit}>
-                    <FormGroup controlId="klijent">
-                        <FormControl
-                            value={klijent}
-                            componentClass="textarea"
-                            onChange={e => setKlijent(e.target.value)}
-                        />
-                    </FormGroup>
-                    <FormGroup controlId="kontakt">
-                        <FormControl
-                            value={kontakt}
-                            componentClass="textarea"
-                            onChange={e => setKontakt(e.target.value)}
-                        />
-                    </FormGroup>
-                    <FormGroup controlId="uredjaj">
-                        <FormControl
-                            value={uredjaj}
-                            componentClass="textarea"
-                            onChange={e => setUredjaj(e.target.value)}
-                        />
-                    </FormGroup>
-                    <FormGroup controlId="napomena">
-                        <FormControl
-                            value={napomena}
-                            componentClass="textarea"
-                            onChange={e => setNapomena(e.target.value)}
-                        />
-                    </FormGroup>
-                    {radniNalog.attachment && (
-                        <FormGroup>
-                            <ControlLabel>Attachment</ControlLabel>
-                            <FormControl.Static>
-                                <a
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    href={radniNalog.attachmentURL}
-                                >
-                                    {formatFilename(radniNalog.attachment)}
-                                </a>
-                            </FormControl.Static>
-                        </FormGroup>
-                    )}
-                    <FormGroup controlId="file">
-                        {!radniNalog.attachment && <ControlLabel>Attachment</ControlLabel>}
-                        <FormControl onChange={handleFileChange} type="file" />
-                    </FormGroup>
-                    <LoaderButton
-                        block
-                        type="submit"
-                        bsSize="large"
-                        bsStyle="primary"
-                        isLoading={isLoading}
-                        disabled={!validateForm()}
-                    >
-                        Save
-                    </LoaderButton>
-                    <LoaderButton
-                        block
-                        bsSize="large"
-                        bsStyle="danger"
-                        onClick={handleDelete}
-                        isLoading={isDeleting}
-                    >
-                        Delete
-                    </LoaderButton>
+
+                    <Row>
+                        <Col xs={3}/>
+                        <Col xs={6}>
+
+                            <Row>
+                                <Col xs={6}>
+                                    <FormGroup controlId="klijent">
+                                        <FormControl
+                                            value={klijent}
+                                            type={'text'}
+                                            onChange={e => setKlijent(e.target.value)}
+                                        />
+                                    </FormGroup>
+                                </Col>
+                                <Col xs={6}>
+                                    <FormGroup controlId="kontakt">
+                                        <FormControl
+                                            value={kontakt}
+                                            type={'text'}
+                                            onChange={e => setKontakt(e.target.value)}
+                                        />
+                                    </FormGroup>
+                                </Col>
+                            </Row>
+
+
+                            <Row>
+                                <Col xs={12}>
+                                    <FormGroup controlId="uredjaj">
+                                        <FormControl
+                                            value={uredjaj}
+                                            as="textarea"
+                                            row={5}
+                                            onChange={e => setUredjaj(e.target.value)}
+                                        />
+                                    </FormGroup>
+                                </Col>
+                            </Row>
+
+
+                            <Row>
+                                <Col xs={12}>
+                                    <FormGroup controlId="napomena">
+                                        <FormControl
+                                            value={napomena}
+                                            as="textarea"
+                                            row={5}
+                                            onChange={e => setNapomena(e.target.value)}
+                                        />
+                                    </FormGroup>
+                                </Col>
+                            </Row>
+
+                            <Row>
+                                <Col xs={12}>
+                                    {radniNalog.attachment && (
+                                        <FormGroup>
+                                            <ControlLabel>Attachment</ControlLabel>
+                                            <FormControl.Static>
+                                                <a
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    href={radniNalog.attachmentURL}
+                                                >
+                                                    {formatFilename(radniNalog.attachment)}
+                                                </a>
+                                            </FormControl.Static>
+                                        </FormGroup>
+                                    )}
+                                    <FormGroup controlId="file">
+                                        {!radniNalog.attachment && <ControlLabel>Attachment</ControlLabel>}
+                                        <FormControl onChange={handleFileChange} type="file"/>
+                                    </FormGroup>
+                                </Col>
+                            </Row>
+
+                            <Row>
+                                <Col xs={6}>
+                                    <LoaderButton
+                                        block
+                                        type="submit"
+                                        bsSize="large"
+                                        bsStyle="primary"
+                                        isLoading={isLoading}
+                                        disabled={!validateForm()}
+                                    >
+                                        Save
+                                    </LoaderButton>
+                                </Col>
+                                <Col xs={6}>
+                                    <LoaderButton
+                                        block
+                                        bsSize="large"
+                                        bsStyle="danger"
+                                        onClick={handleDelete}
+                                        isLoading={isDeleting}
+                                    >
+                                        Delete
+                                    </LoaderButton>
+                                </Col>
+                            </Row>
+                        </Col>
+                    </Row>
                 </form>
             )}
         </div>

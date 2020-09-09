@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { PageHeader, ListGroup, ListGroupItem } from "react-bootstrap";
-import { useAppContext } from "../libs/contextLib";
-import { onError } from "../libs/errorLib";
+import React, {useState, useEffect} from "react";
+import {PageHeader, ListGroup, ListGroupItem, FormControl} from "react-bootstrap";
+import {useAppContext} from "../libs/contextLib";
+import {onError} from "../libs/errorLib";
 import "./Home.css";
-import { API } from "aws-amplify";
-import { LinkContainer } from "react-router-bootstrap";
-import { Link } from "react-router-dom";
+import {API} from "aws-amplify";
+import {LinkContainer} from "react-router-bootstrap";
+import {Link} from "react-router-dom";
 
 
 export default function Home() {
     const [radniNalozi, setRadniNalozi] = useState([]);
-    const { isAuthenticated } = useAppContext();
+    const {isAuthenticated} = useAppContext();
     const [isLoading, setIsLoading] = useState(true);
+
+    const [searchValue, setSearchValue] = useState('')
 
     useEffect(() => {
         async function onLoad() {
@@ -32,6 +34,8 @@ export default function Home() {
         onLoad();
     }, [isAuthenticated]);
 
+    const filtered = radniNalozi.filter(r => r.klijent.includes(searchValue) || r.uredjaj.includes(searchValue))
+
     function loadRadniNalozi() {
         return API.get("radniNalog", "/radniNalog");
     }
@@ -40,13 +44,21 @@ export default function Home() {
         return [{}].concat(radniNalozi).map((radniNalog, i) =>
             i !== 0 ? (
                 <LinkContainer key={radniNalog.radniNalogId} to={`/radniNalog/${radniNalog.radniNalogId}`}>
-                    <ListGroupItem header={"klijent:"+radniNalog.klijent.trim().split("\n")[0] + " uredjaj:"+radniNalog.uredjaj.trim().split("\n")[0]}>
-                        {"Created: " + new Date(radniNalog.createdAt).toLocaleString()}
+                    <ListGroupItem className={'item'}>
+                        <h4>
+                            {"Klijent: " + radniNalog.klijent.trim().split("\n")[0]}
+                        </h4>
+                        <h4>
+                            {"Uredjaj: " + radniNalog.uredjaj.trim().split("\n")[0]}
+                        </h4>
+                        <p>
+                            {"Created: " + new Date(radniNalog.createdAt).toLocaleString()}
+                        </p>
                     </ListGroupItem>
                 </LinkContainer>
             ) : (
                 <LinkContainer key="new" to="/radniNalog/new">
-                    <ListGroupItem>
+                    <ListGroupItem className={'item'}>
                         <h4>
                             <b>{"\uFF0B"}</b> Kreiraj novi radni nalog
                         </h4>
@@ -59,8 +71,6 @@ export default function Home() {
     function renderLander() {
         return (
             <div className="lander">
-                <h1>Scratch</h1>
-                <p>A simple note taking app</p>
                 <div>
                     <Link to="/login" className="btn btn-info btn-lg">
                         Login
@@ -75,12 +85,23 @@ export default function Home() {
 
     function renderRadniNalozi() {
         return (
-            <div className="radninalog">
-                <PageHeader>Radni nalozi</PageHeader>
+            <>
+                <h2 className="radninalog">
+                    Radni nalozi
+                </h2>
+
+                <FormControl
+                    value={searchValue}
+                    type={'text'}
+                    onChange={e => setSearchValue(e.target.value)}
+                />
+
+                <div style={{height: 30}}/>
+
                 <ListGroup>
-                    {!isLoading && renderRadniNaloziList(radniNalozi)}
+                    {!isLoading && renderRadniNaloziList(filtered)}
                 </ListGroup>
-            </div>
+            </>
         );
     }
 
