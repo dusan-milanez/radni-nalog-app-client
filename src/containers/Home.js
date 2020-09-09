@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {PageHeader, ListGroup, ListGroupItem, FormControl} from "react-bootstrap";
+import {PageHeader, ListGroup, ListGroupItem, FormControl, FormGroup, ControlLabel} from "react-bootstrap";
 import {useAppContext} from "../libs/contextLib";
 import {onError} from "../libs/errorLib";
 import "./Home.css";
@@ -34,7 +34,7 @@ export default function Home() {
         onLoad();
     }, [isAuthenticated]);
 
-    const filtered = radniNalozi.filter(r => r.klijent.includes(searchValue) || r.uredjaj.includes(searchValue))
+    const filtered = radniNalozi.filter(r => r.klijent.toLowerCase().includes(searchValue.toLowerCase()) || r.uredjaj.toLowerCase().includes(searchValue.toLowerCase()))
 
     function loadRadniNalozi() {
         return API.get("radniNalog", "/radniNalog");
@@ -90,11 +90,15 @@ export default function Home() {
                     Radni nalozi
                 </h2>
 
-                <FormControl
-                    value={searchValue}
-                    type={'text'}
-                    onChange={e => setSearchValue(e.target.value)}
-                />
+                <FormGroup>
+                    <ControlLabel>Search</ControlLabel>
+                    <FormControl
+                        value={searchValue}
+                        type={'text'}
+                        onChange={e => setSearchValue(e.target.value)}
+                    />
+                </FormGroup>
+
 
                 <div style={{height: 30}}/>
 
